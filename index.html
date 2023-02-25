@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STIIM</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>STIIM</h1>
+
+	<form>
+		<label for="name">Tipo:</label>
+		<input type="text" id="tipo" name="tipo" required>
+
+		<label for="modelo">Modelo:</label>
+		<input type="text" id="modelo" name="modelo" required>
+
+		<label for="price">Preço:</label>
+		<input type="number" id="preco" name="preco" required>
+
+		<label for="price">Quantidade:</label>
+		<input type="number" id="quantidade" name="quantidade" required>
+
+		<label for="image">Imagem link:</label>
+		<input type="url" id="imagem" name="imagem" required>
+
+		<button type="submit" id="adicionar">Adicionar</button>
+
+	</form>
+
+	<input type="text" id="entradaPesquisa" onkeyup="buscar()" placeholder="Busque um produto.." title="Busque um produto">
+	<button type="submit" id="procurar">Procurar</button>
+	<ul id="myUL">
+		<li><a href="#">Adele</a></li>
+		<li><a href="#">Agnes</a></li>
+	  
+		<li><a href="#">Billy</a></li>
+		<li><a href="#">Bob</a></li>
+	  
+		<li><a href="#">Calvin</a></li>
+		<li><a href="#">Christina</a></li>
+		<li><a href="#">Cindy</a></li>
+	  </ul>
+
+	<table id="Tabela de produtos">
+			<tr>
+				<th>Nome</th>
+				<th>Modelo</th>
+				<th>Preço</th>
+				<th>Quantidade</th>
+				<th>Imagem</th>
+			</tr>
+			
+	</table>
+
+	<script src="script.js"></script>
+</body>
+</html>
