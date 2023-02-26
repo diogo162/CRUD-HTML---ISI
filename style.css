@@ -2,12 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap%27');
 
 body {
-	height: 100%;
-    background: linear-gradient(184deg, rgba(43,137,135,1) 0%, rgba(54,54,75,1) 100%);
+    background-color: #207483;
 	margin: 0;
 	padding: 0;
     }
-
 
 *{
 	font-family: 'Roboto', sans-serif;
