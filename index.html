@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>STIIM</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
 	<h1>STIIM</h1>
 
-	<form>
+	<form id="formulario">
 		<label for="name">Tipo:</label>
 		<input type="text" id="tipo" name="tipo" required>
 
@@ -27,31 +29,23 @@
 
 	</form>
 
-	<input type="text" id="entradaPesquisa" onkeyup="buscar()" placeholder="Busque um produto.." title="Busque um produto">
-	<button type="submit" id="procurar">Procurar</button>
-	<ul id="myUL">
-		<li><a href="#">Adele</a></li>
-		<li><a href="#">Agnes</a></li>
-	  
-		<li><a href="#">Billy</a></li>
-		<li><a href="#">Bob</a></li>
-	  
-		<li><a href="#">Calvin</a></li>
-		<li><a href="#">Christina</a></li>
-		<li><a href="#">Cindy</a></li>
-	  </ul>
-
-	<table id="Tabela de produtos">
-			<tr>
-				<th>Nome</th>
-				<th>Modelo</th>
-				<th>Preço</th>
-				<th>Quantidade</th>
-				<th>Imagem</th>
-			</tr>
-			
-	</table>
-
+	<div class="tabela-container">
+		<table>
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Modelo</th>
+					<th>Preço</th>
+					<th>Quantidade</th>
+					<th>Imagem</th>
+					<th>Ação</th>
+				</tr>
+			</thead>
+			<tbody id="tabela">
+			</tbody>
+		</table>
+	</div>
 	<script src="script.js"></script>
 </body>
+
 </html>

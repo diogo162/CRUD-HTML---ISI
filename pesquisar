@@ -1,0 +1,166 @@
+	<input type="text" id="entradaPesquisa" onkeyup="buscar()" placeholder="Busque um produto.." title="Busque um produto">
+	<button type="submit" id="procurar">Procurar</button>
+	<ul id="myUL">
+		<li><a href="#">Adele</a></li>
+		<li><a href="#">Agnes</a></li>
+	  
+		<li><a href="#">Billy</a></li>
+		<li><a href="#">Bob</a></li>
+	  
+		<li><a href="#">Calvin</a></li>
+		<li><a href="#">Christina</a></li>
+		<li><a href="#">Cindy</a></li>
+	  </ul>
+
+
+      #myInput {
+        background-image: url('/css/searchicon.png');
+        background-position: 10px 12px;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+      }
+      
+      #myUL {
+        list-style-type: none;
+        padding: 10px;
+        margin: 0;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      #myUL li a {
+        border: 1px solid #ddd;
+        margin-top: -1px; /* Prevent double borders */
+        background-color: #f6f6f6;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px;
+        color: black;
+        display: block
+      }
+      
+      #myUL li a:hover:not(.header) {
+        background-color: #eee;
+      }
+    
+
+      // Seleciona o formulário
+const form = document.getElementById('formulario');
+
+// Seleciona a tabela onde os dados serão exibidos
+const tabela = document.getElementById('tabela');
+
+// Adiciona um listener ao evento "submit" do formulário
+form.addEventListener('submit', function(event) {
+
+  // Cria um objeto com os dados do formulário
+  const produto = {
+    tipo: this.elements.tipo.value,
+    modelo: this.elements.modelo.value,
+    preco: this.elements.preco.value,
+    quantidade: this.elements.quantidade.value,
+    imagem: this.elements.imagem.value,
+  };
+
+  // Verifica se já existe um array de produtos no Local Storage
+  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+  // Adiciona o novo produto ao array
+  produtos.push(produto);
+
+  // Armazena o array atualizado no Local Storage
+  localStorage.setItem('produtos', JSON.stringify(produtos));
+
+  // Exibe os dados na tabela
+  exibirProdutos();
+});
+
+// Função para exibir os produtos na tabela
+function exibirProdutos() {
+  // Limpa a tabela
+  tabela.innerHTML = '';
+
+  // Obtém o array de produtos do Local Storage
+  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+  // Loop pelos produtos e adiciona as linhas na tabela
+  for (let i = 0; i < produtos.length; i++) {
+    const produto = produtos[i];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${produto.tipo}</td>
+      <td>${produto.modelo}</td>
+      <td>${produto.preco}</td>
+      <td>${produto.quantidade}</td>
+      <td><img src="${produto.imagem}" width="80"></td>
+      <tr><button id="editar">Editar</button></tr><br>
+      <tr><button id="deletar">Deletar</button></tr>
+    `;
+    tabela.appendChild(tr);
+  }
+}
+
+// Exibe os dados na tabela quando a página é carregada
+exibirProdutos();
+
+// Função para deletar um produto
+function deletarProduto(index) {
+  // Obtém o array de produtos do Local Storage
+  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+  // Remove o produto do array pelo índice
+  produtos.splice(index, 1);
+
+  // Armazena o array atualizado no Local Storage
+  localStorage.setItem('produtos', JSON.stringify(produtos));
+
+  // Exibe os dados atualizados na tabela
+  exibirProdutos();
+}
+
+// Função para editar um produto
+function editarProduto(index) {
+  // Obtém o array de produtos do Local Storage
+  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+  // Obtém o produto a ser editado pelo índice
+  const produto = produtos[index];
+
+  // Preenche os campos do formulário com os dados do produto
+  form.elements.tipo.value = produto.tipo;
+  form.elements.modelo.value = produto.modelo;
+  form.elements.preco.value = produto.preco;
+  form.elements.quantidade.value = produto.quantidade;
+  form.elements.imagem.value = produto.imagem;
+
+  // Remove o produto do array pelo índice
+  produtos.splice(index, 1);
+
+  // Armazena o array atualizado no Local Storage
+  localStorage.setItem('produtos', JSON.stringify(produtos));
+
+  // Exibe os dados atualizados na tabela
+  exibirProdutos();
+}
+
+// Adiciona um listener para o evento "click" dos botões "Deletar" e "Editar"
+tabela.addEventListener('click', function(event) {
+  if (event.target.id === 'deletar') {
+    // Obtém o índice do produto a ser deletado
+    const index = event.target.parentNode.parentNode.rowIndex - 1;
+
+    // Chama a função de deletar o produto
+    deletarProduto(index);
+  } else if (event.target.id === 'editar') {
+    // Obtém o índice do produto a ser editado
+    const index = event.target.parentNode.parentNode.rowIndex - 1;
+
+    // Chama a função de editar o produto
+    editarProduto(index);
+  }
+});

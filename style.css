@@ -1,11 +1,12 @@
 body {
 	font-family: Arial, sans-serif;
-	background-color: rgb(121, 120, 120);
+	background-color: rgb(54, 54, 75);
   }
   
   h1 {
 	font-family: Arial , sans-serif;
 	font-size: 35px;
+	color: #ddd;
 	text-align: center;
   }
   
@@ -13,7 +14,12 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 20px;
+	margin: auto;
+	max-width: 450px;
+	color: #ddd;
+	border: 1px solid #ccc;
+  	padding: 20px;
+	box-shadow: 0px 0px 40px 0px #0000004d;
   }
   
   form label {
@@ -39,51 +45,42 @@ body {
 	color: white;
 	border: none;
 	cursor: pointer;
+	margin-top: 15px;
+  }
+
+  button[id="editar"]{
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	
+  }
+
+  button[id="deletar"]{
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
   }
   
   table {
-	border-collapse: collapse;
-	margin-left: auto;
-	margin-right: auto;
+	margin: auto;
 	margin-top: 50px;
+	overflow: auto;
   }
+
   
   th, td {
 	padding: 15px;
 	border: 1px solid rgb(14, 13, 13);
   }
 
+  tr {
+	padding: 15px;
+	border: 1px solid rgb(14, 13, 13);
+  }
 
 
-
-  #myInput {
-	background-image: url('/css/searchicon.png');
-	background-position: 10px 12px;
-	background-repeat: no-repeat;
-	width: 100%;
-	font-size: 16px;
-	padding: 12px 20px 12px 40px;
-	border: 1px solid #ddd;
-	margin-bottom: 12px;
-  }
-  
-  #myUL {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-  }
-  
-  #myUL li a {
-	border: 1px solid #ddd;
-	margin-top: -1px; /* Prevent double borders */
-	background-color: #f6f6f6;
-	padding: 12px;
-	text-decoration: none;
-	font-size: 18px;
-	color: black;
-	display: block
-  }
-  
-  #myUL li a:hover:not(.header) {
-	background-color: #eee;
-  }
+   thead{
+	padding: 15px;
+	background-color: #000000;
+	color: #ccc;
+   }
