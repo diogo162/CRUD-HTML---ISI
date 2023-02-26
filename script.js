@@ -71,9 +71,9 @@ function exibirProdutos() {
       <td>${produto.modelo}</td>
       <td>${produto.preco}</td>
       <td>${produto.quantidade}</td>
-      <td><img src="${produto.imagem}" width="80"></td>
-      <tr><button id="editar">Editar</button></tr><br>
-      <tr><button id="deletar">Deletar</button></tr>
+      <td><img id="imagem" src="${produto.imagem}" width="100"></td>
+      <td class="acao"><button id="editar">Editar</button>
+                       <button id="deletar">Deletar</button></tr>
     `;
     tabela.appendChild(tr);
   }

@@ -1,86 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap%27');
+@import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap%27');
+
 body {
-	font-family: Arial, sans-serif;
-	background-color: rgb(54, 54, 75);
-  }
-  
-  h1 {
-	font-family: Arial , sans-serif;
-	font-size: 35px;
+	height: 100%;
+    background: linear-gradient(184deg, rgba(43,137,135,1) 0%, rgba(54,54,75,1) 100%);
+	margin: 0;
+	padding: 0;
+    }
+
+
+*{
+	font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+	font-family: 'Tilt Neon', cursive;
+	font-size: 45px;
 	color: #ddd;
 	text-align: center;
-  }
-  
-  form {
+}
+
+form {
+	background-color: #ddd;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	margin: auto;
 	max-width: 450px;
-	color: #ddd;
+	border-radius: 20px;
+	font-weight: bolder;
+	color: #000000;
 	border: 1px solid #ccc;
-  	padding: 20px;
+	padding: 20px;
 	box-shadow: 0px 0px 40px 0px #0000004d;
-  }
-  
-  form label {
+}
+
+form label {
 	margin: 10px 0;
-  }
-  
-  form input[type="text"], form input[type="number"],form textarea, form input[type="url"] {
+}
+
+form input[type="text"],
+form input[type="number"],
+form textarea,
+form input[type="url"] {
 	padding: 5px;
 	border-radius: 5px;
-	border: 1px solid rgb(54, 54, 54);
-	width: 300px;
+	border: 1px solid rgb(233, 230, 230);
 	height: 20px;
-	margin-left: 5px;
-	margin-right: 10px;
 	resize: none;
-  }
-  
-  
-  form button[type="submit"] {
+}
+
+
+form button[type="submit"] {
 	padding: 10px 20px;
 	border-radius: 5px;
-	background-color: #2f32ca;
+	background-color: #207483;
+	font-size: medium;
 	color: white;
 	border: none;
 	cursor: pointer;
 	margin-top: 15px;
-  }
+	margin-left: auto;
+	margin-right: auto;
+}
 
-  button[id="editar"]{
+button {
 	padding: 5px;
 	border-radius: 5px;
 	cursor: pointer;
-	
-  }
+}
 
-  button[id="deletar"]{
-	padding: 5px;
-	border-radius: 5px;
-	cursor: pointer;
-  }
-  
-  table {
+button[id="editar"] {
+	background-color: #bbd480;
+}
+
+button[id="deletar"] {
+	background-color: #d34545;
+}
+
+table {
 	margin: auto;
 	margin-top: 50px;
-	overflow: auto;
-  }
+	margin-bottom: 50px;
+	border-collapse: collapse;
+	border: 2px solid rgb(56, 55, 55);
+}
 
-  
-  th, td {
-	padding: 15px;
-	border: 1px solid rgb(14, 13, 13);
-  }
-
-  tr {
-	padding: 15px;
-	border: 1px solid rgb(14, 13, 13);
-  }
-
-
-   thead{
-	padding: 15px;
+th {
+	padding: 20px;
 	background-color: #000000;
-	color: #ccc;
-   }
+	color: #ffffff;
+	border: 2px solid rgb(56, 55, 55);
+}
+
+td {
+	background-color: #ddd;
+	padding: 15px;
+	border: 2px solid rgb(56, 55, 55);
+}
+
+tr {
+	padding: 15px;
+	border: 2px solid rgb(56, 55, 55);
+}
+
+td[class="acao"] {
+	background-color: rgb(0, 0, 0);
+	border: 2px solid rgb(56, 55, 55);
+}
