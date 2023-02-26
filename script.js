@@ -35,16 +35,12 @@
 
 //   }
 
-// Seleciona o formulário
 const form = document.getElementById('formulario');
 
-// Seleciona a tabela onde os dados serão exibidos
 const tabela = document.getElementById('tabela');
 
-// Adiciona um listener ao evento "submit" do formulário
 form.addEventListener('submit', function(event) {
 
-  // Cria um objeto com os dados do formulário
   const produto = {
     tipo: this.elements.tipo.value,
     modelo: this.elements.modelo.value,
@@ -53,28 +49,20 @@ form.addEventListener('submit', function(event) {
     imagem: this.elements.imagem.value,
   };
 
-  // Verifica se já existe um array de produtos no Local Storage
   let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 
-  // Adiciona o novo produto ao array
   produtos.push(produto);
 
-  // Armazena o array atualizado no Local Storage
   localStorage.setItem('produtos', JSON.stringify(produtos));
 
-  // Exibe os dados na tabela
   exibirProdutos();
 });
 
-// Função para exibir os produtos na tabela
 function exibirProdutos() {
-  // Limpa a tabela
   tabela.innerHTML = '';
 
-  // Obtém o array de produtos do Local Storage
   let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
 
-  // Loop pelos produtos e adiciona as linhas na tabela
   for (let i = 0; i < produtos.length; i++) {
     const produto = produtos[i];
     const tr = document.createElement('tr');
@@ -91,5 +79,4 @@ function exibirProdutos() {
   }
 }
 
-// Exibe os dados na tabela quando a página é carregada
 exibirProdutos();
