@@ -9,7 +9,7 @@ form.addEventListener('submit', function(event) {
 
   // Cria um objeto com os dados do formulário
   const produto = {
-    tipo: this.elements.tipo.value,
+    nome: this.elements.nome.value,
     modelo: this.elements.modelo.value,
     preco: this.elements.preco.value,
     quantidade: this.elements.quantidade.value,
@@ -46,7 +46,7 @@ function exibirProdutos() {
     const produto = produtos[i];
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${produto.tipo}</td>
+      <td>${produto.nome}</td>
       <td>${produto.modelo}</td>
       <td>${produto.preco}</td>
       <td>${produto.quantidade}</td>
@@ -85,7 +85,7 @@ function editarProduto(index) {
   const produto = produtos[index];
 
   // Preenche os campos do formulário com os dados do produto
-  form.elements.tipo.value = produto.tipo;
+  form.elements.nome.value = produto.nome;
   form.elements.modelo.value = produto.modelo;
   form.elements.preco.value = produto.preco;
   form.elements.quantidade.value = produto.quantidade;
@@ -132,7 +132,7 @@ function pesquisarProdutos(termo) {
 
   // Filtra os produtos pelo termo de busca
   produtos = produtos.filter(function(produto) {
-    return produto.tipo.toUpperCase().indexOf(termo.toUpperCase()) > -1;
+    return produto.nome.toUpperCase().indexOf(termo.toUpperCase()) > -1;
   });
 
   // Limpa a tabela
@@ -143,7 +143,7 @@ function pesquisarProdutos(termo) {
     const produto = produtos[i];
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${produto.tipo}</td>
+      <td>${produto.nome}</td>
       <td>${produto.modelo}</td>
       <td>${produto.preco}</td>
       <td>${produto.quantidade}</td>
