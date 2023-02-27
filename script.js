@@ -14,6 +14,7 @@ form.addEventListener('submit', function(event) {
     preco: this.elements.preco.value,
     quantidade: this.elements.quantidade.value,
     imagem: this.elements.imagem.value,
+    id: Math.random().toString(16).slice(2),
   };
 
   // Verifica se já existe um array de produtos no Local Storage
@@ -28,6 +29,8 @@ form.addEventListener('submit', function(event) {
   // Exibe os dados na tabela
   exibirProdutos();
 });
+
+
 
 // Função para exibir os produtos na tabela
 function exibirProdutos() {
@@ -49,8 +52,8 @@ function exibirProdutos() {
       <td>${produto.quantidade}</td>
       <td><img id="imagem" src="${produto.imagem}" width="100"></td>
       <td class="acao"><button id="editar">Editar</button>
-                       <button id="deletar">Deletar</button></t>
-    `;
+                       <button id="deletar">Deletar</button></t>`;
+                       produto.id = tabela[i-1]
     tabela.appendChild(tr);
   }
 }
@@ -106,6 +109,7 @@ tabela.addEventListener('click', function(event) {
 
     // Chama a função de deletar o produto
     deletarProduto(index);
+    
   } else if (event.target.id === 'editar') {
     // Obtém o índice do produto a ser editado
     const index = event.target.parentNode.parentNode.rowIndex - 1;
@@ -114,3 +118,37 @@ tabela.addEventListener('click', function(event) {
     editarProduto(index);
   }
 });
+
+const searchInput = document.getElementById('pesquisar');
+searchInput.addEventListener('input', function() {
+  pesquisarProdutos(this.value);
+});
+
+
+function pesquisarProdutos(termo) {
+  // Obtém o array de produtos do Local Storage
+  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
+
+  // Filtra os produtos pelo termo de busca
+  produtos = produtos.filter(function(produto) {
+    return produto.tipo.toUpperCase().indexOf(termo.toUpperCase()) > -1;
+  });
+
+  // Limpa a tabela
+  tabela.innerHTML = '';
+
+  // Loop pelos produtos filtrados e adiciona as linhas na tabela
+  for (let i = 0; i < produtos.length; i++) {
+    const produto = produtos[i];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${produto.tipo}</td>
+      <td>${produto.modelo}</td>
+      <td>${produto.preco}</td>
+      <td>${produto.quantidade}</td>
+      <td><img id="imagem" src="${produto.imagem}" width="100"></td>
+      <td class="acao"><button id="editar">Editar</button>
+                       <button id="deletar">Deletar</button></t>`;
+    tabela.appendChild(tr);
+  }
+}
