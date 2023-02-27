@@ -119,12 +119,13 @@ tabela.addEventListener('click', function(event) {
   }
 });
 
+// Pega entradas da barra de pesquisa para o filtro de produtos
 const searchInput = document.getElementById('pesquisar');
 searchInput.addEventListener('input', function() {
   pesquisarProdutos(this.value);
 });
 
-
+// Função para a pesquisa de produtos específicos
 function pesquisarProdutos(termo) {
   // Obtém o array de produtos do Local Storage
   let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
