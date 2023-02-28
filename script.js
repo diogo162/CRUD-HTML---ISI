@@ -9,7 +9,7 @@ form.addEventListener('submit', function(event) {
 
   // Cria um objeto com os dados do formulário
   const produto = {
-    nome: this.elements.nome.value,
+    tipo: this.elements.tipo.value,
     modelo: this.elements.modelo.value,
     preco: this.elements.preco.value,
     quantidade: this.elements.quantidade.value,
@@ -46,14 +46,13 @@ function exibirProdutos() {
     const produto = produtos[i];
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${produto.nome}</td>
+      <td>${produto.tipo}</td>
       <td>${produto.modelo}</td>
       <td>${produto.preco}</td>
       <td>${produto.quantidade}</td>
       <td><img id="imagem" src="${produto.imagem}" width="100"></td>
       <td class="acao"><button id="editar">Editar</button>
                        <button id="deletar">Deletar</button></t>`;
-                       produto.id = tabela[i-1]
     tabela.appendChild(tr);
   }
 }
@@ -85,7 +84,7 @@ function editarProduto(index) {
   const produto = produtos[index];
 
   // Preenche os campos do formulário com os dados do produto
-  form.elements.nome.value = produto.nome;
+  form.elements.tipo.value = produto.tipo;
   form.elements.modelo.value = produto.modelo;
   form.elements.preco.value = produto.preco;
   form.elements.quantidade.value = produto.quantidade;
@@ -132,7 +131,7 @@ function pesquisarProdutos(termo) {
 
   // Filtra os produtos pelo termo de busca
   produtos = produtos.filter(function(produto) {
-    return produto.nome.toUpperCase().indexOf(termo.toUpperCase()) > -1;
+    return produto.tipo.toUpperCase().indexOf(termo.toUpperCase()) > -1;
   });
 
   // Limpa a tabela
@@ -143,7 +142,7 @@ function pesquisarProdutos(termo) {
     const produto = produtos[i];
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${produto.nome}</td>
+      <td>${produto.tipo}</td>
       <td>${produto.modelo}</td>
       <td>${produto.preco}</td>
       <td>${produto.quantidade}</td>
