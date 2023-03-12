@@ -1,5 +1,7 @@
 const form = document.getElementById('formulario');
 const tabela = document.getElementById('tabela');
+const closeSpan = document.querySelector(".close");
+
 
 form.addEventListener('submit', function(event) {
   event.preventDefault();
