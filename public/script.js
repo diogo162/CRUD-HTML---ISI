@@ -1,11 +1,14 @@
 const form = document.getElementById('formulario');
 const tabela = document.getElementById('tabela');
+
 const closeSpan = document.querySelector(".close");
 
 
 form.addEventListener('submit', function(event) {
   event.preventDefault();
+
   const produto = {
+    id: this.elements.produtoId.value,
     tipo: this.elements.tipo.value,
     modelo: this.elements.modelo.value,
     preco: this.elements.preco.value,
@@ -13,9 +16,11 @@ form.addEventListener('submit', function(event) {
     imagem: this.elements.imagem.value,
   };
 
-  // Send POST request to server
-  fetch('/produtos', {
-    method: 'POST',
+  const method = produto.id ? 'PUT' : 'POST';
+  const url = produto.id ? `/produtos/${produto.id}` : '/produtos';
+
+  fetch(url, {
+    method: method,
     headers: {
       'Content-Type': 'application/json'
     },
@@ -27,16 +32,137 @@ form.addEventListener('submit', function(event) {
     localStorage.setItem('produtos', JSON.stringify(data));
     exibirProdutos();
   });
+
+  // Reset the form
+  form.reset();
+  form.elements.produtoId.value = '';
 });
 
 function exibirProdutos() {
   tabela.innerHTML = '';
-
-  // Get products list from server
+  const submitButton = form.querySelector('button[type="submit"]');
+  submitButton.textContent = 'Adicionar';
   fetch('/produtos')
     .then(response => response.json())
     .then(data => {
       let produtos = data || [];
+      for (let i = 0; i < produtos.length; i++) {
+        const produto = produtos[i];
+        const tr = document.createElement('tr');
+        tr.classList.add("produto");
+        tr.dataset.index = produto.id;
+        tr.innerHTML = `
+          <td>${produto.tipo}</td>
+          <td>${produto.modelo}</td>
+          <td>${produto.preco}</td>
+          <td>${produto.quantidade}</td>
+          <td><img id="imagem" src="${produto.imagem}" width="100"></td>
+          <td class="acao"><button id="editar">Editar</button>
+                          <button id="deletar">Deletar</button></td>`;
+        tabela.appendChild(tr);
+
+      }
+    });
+}
+
+function deletarProduto(index) {
+  // Send DELETE request to server
+  fetch(`/produtos/${index}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Update products list with response from server
+    exibirProdutos();
+  });
+}
+
+
+function editarProduto(index) {
+  fetch(`/produtos/${index}`)
+    .then(response => response.json())
+    .then(produto => {
+      form.elements.produtoId.value = produto.id; // define o id do produto no campo hidden do formulário
+      form.elements.tipo.value = produto.tipo;
+      form.elements.modelo.value = produto.modelo;
+      form.elements.preco.value = produto.preco;
+      form.elements.quantidade.value = produto.quantidade;
+      form.elements.imagem.value = produto.imagem;
+
+      // Change the form submission method to PUT and update the form action URL
+      form.method = 'PUT';
+      form.action = `/produtos/${produto.id}`; // atualiza o URL do formulário para incluir o id do produto
+
+      // Change the submit button text
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.textContent = 'Salvar';
+
+      // Add an event listener to the form submission for editing the product
+      form.removeEventListener('submit', adicionarProduto);
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const produtoAtualizado = {
+          tipo: this.elements.tipo.value,
+          modelo: this.elements.modelo.value,
+          preco: this.elements.preco.value,
+          quantidade: this.elements.quantidade.value,
+          imagem: this.elements.imagem.value,
+        };
+
+        // Send PUT request to server
+        fetch(`/produtos/${produto.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(produtoAtualizado)
+        })
+        .then(response => response.json())
+        .then(data => {
+
+          exibirProdutos();
+        });
+      });
+    });
+}
+
+
+tabela.addEventListener('click', function(event) {
+  if (event.target.id === 'deletar') {
+    const index = event.target.closest('.produto').dataset.index;
+    deletarProduto(index);
+
+  } else if (event.target.id ==='editar') {
+    const index = event.target.closest('.produto').dataset.index;
+    editarProduto(index);}
+
+  });
+  
+exibirProdutos();
+
+
+const searchInput = document.getElementById('pesquisar');
+searchInput.addEventListener('input', function() {
+  pesquisarProdutos(this.value);
+});
+
+function pesquisarProdutos(termo) {
+  let produtos = [];
+
+  fetch('/produtos')
+    .then(response => response.json())
+    .then(data => {
+      produtos = data || [];
+
+      produtos = produtos.filter(function(produto) {
+        return produto.modelo.toUpperCase().indexOf(termo.toUpperCase()) > -1;
+      });
+
+      tabela.innerHTML = '';
+
       for (let i = 0; i < produtos.length; i++) {
         const produto = produtos[i];
         const tr = document.createElement('tr');
@@ -47,70 +173,10 @@ function exibirProdutos() {
           <td>${produto.quantidade}</td>
           <td><img id="imagem" src="${produto.imagem}" width="100"></td>
           <td class="acao"><button id="editar">Editar</button>
-                           <button id="deletar">Deletar</button></t>`;
+                           <button id="deletar">Deletar</button></td>`;
         tabela.appendChild(tr);
       }
     });
 }
 
-function deletarProduto(index) {
-  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
-  produtos.splice(index, 1);
 
-  // Send PUT request to server
-  fetch(`/produtos/${index}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(produtos)
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Update products list with response from server
-    localStorage.setItem('produtos', JSON.stringify(data));
-    exibirProdutos();
-  });
-}
-
-function editarProduto(index) {
-  let produtos = JSON.parse(localStorage.getItem('produtos')) || [];
-
-  const produto = produtos[index];
-  form.elements.tipo.value = produto.tipo;
-  form.elements.modelo.value = produto.modelo;
-  form.elements.preco.value = produto.preco;
-  form.elements.quantidade.value = produto.quantidade;
-  form.elements.imagem.value = produto.imagem;
-
-  produtos.splice(index, 1);
-
-  // Send PUT request to server
-  fetch(`/produtos/${index}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(produtos)
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Update products list with response from server
-    localStorage.setItem('produtos', JSON.stringify(data));
-    exibirProdutos();
-  });
-}
-
-tabela.addEventListener('click', function(event) {
-  if (event.target.id === 'deletar') {
-    const index = event.target.parentNode.parentNode.rowIndex - 1;
-
-    deletarProduto(index);
-    
-  } else if (event.target.id ==='editar') {
-    const index = event.target.parentNode.parentNode.rowIndex - 1;
-    editarProduto(index);}
-  });
-  
-  // Call exibirProdutos on page load
-  exibirProdutos();
