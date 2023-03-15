@@ -28,12 +28,12 @@ form.addEventListener('submit', function(event) {
   })
   .then(response => response.json())
   .then(data => {
-    // Update products list with response from server
+    // Atualiza a lista de produtos com resposta do servidor
     localStorage.setItem('produtos', JSON.stringify(data));
     exibirProdutos();
   });
 
-  // Reset the form
+  // Resetar o form
   form.reset();
   form.elements.produtoId.value = '';
 });
@@ -66,7 +66,7 @@ function exibirProdutos() {
 }
 
 function deletarProduto(index) {
-  // Send DELETE request to server
+  // Manda uma request de DELETE pro servidor
   fetch(`/produtos/${index}`, {
     method: 'DELETE',
     headers: {
@@ -75,7 +75,7 @@ function deletarProduto(index) {
   })
   .then(response => response.json())
   .then(data => {
-    // Update products list with response from server
+    // Atualiza a lista de produtos com resposta do servidor
     exibirProdutos();
   });
 }
@@ -92,15 +92,15 @@ function editarProduto(index) {
       form.elements.quantidade.value = produto.quantidade;
       form.elements.imagem.value = produto.imagem;
 
-      // Change the form submission method to PUT and update the form action URL
+      // Muda o metodo pra put e atualiza o form action URl
       form.method = 'PUT';
       form.action = `/produtos/${produto.id}`; // atualiza o URL do formulário para incluir o id do produto
 
-      // Change the submit button text
+      // Muda o nome do botão de submit
       const submitButton = form.querySelector('button[type="submit"]');
       submitButton.textContent = 'Salvar';
 
-      // Add an event listener to the form submission for editing the product
+      // Adiciona um event listener pra o form submission pra editar o produto
       form.removeEventListener('submit', adicionarProduto);
       form.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -112,7 +112,7 @@ function editarProduto(index) {
           imagem: this.elements.imagem.value,
         };
 
-        // Send PUT request to server
+        // Manda um request de put pro servidor
         fetch(`/produtos/${produto.id}`, {
           method: 'PUT',
           headers: {
