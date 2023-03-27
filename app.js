@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -10,7 +11,7 @@ port: 5432,
 });
 
 const port = process.env.PORT || 3000;
-
+app.use(cors());
 app.use(express.static('public'));
 app.use(express.json());
 
@@ -19,7 +20,7 @@ console.log('Servidor rodando na porta ${port}');
 });
 
 // Criar um produto
-app.post('/produtos', async (req, res) => {
+app.post('/produtos', cors(), async (req, res) => {
 const { tipo, modelo, preco, quantidade, imagem } = req.body;
 
 const newProduct = await pool.query(
@@ -31,14 +32,14 @@ res.status(201).json(newProduct.rows[0]);
 });
 
 // Listar todos os produtos
-app.get('/produtos', async (req, res) => {
+app.get('/produtos', cors(), async (req, res) => {
 const products = await pool.query('SELECT * FROM produtos');
 
 res.status(200).json(products.rows);
 });
 
 // Ler um produto pelo id
-app.get('/produtos/:id', async (req, res) => {
+app.get('/produtos/:id', cors(), async (req, res) => {
 const { id } = req.params;
 
 const product = await pool.query('SELECT * FROM produtos WHERE id = $1', [id]);
@@ -51,7 +52,7 @@ res.status(200).json(product.rows[0]);
 });
 
 // Atualizar um produto pelo id
-app.put('/produtos/:id', async (req, res) => {
+app.put('/produtos/:id', cors(), async (req, res) => {
 const { id } = req.params;
 const { tipo, modelo, preco, quantidade, imagem } = req.body;
 
@@ -68,7 +69,7 @@ res.status(200).json(updatedProduct.rows[0]);
 });
 
 // Excluir um produto pelo id
-app.delete('/produtos/:id', async (req, res) => {
+app.delete('/produtos/:id', cors(), async (req, res) => {
 const { id } = req.params;
 
 const deletedProduct = await pool.query('DELETE FROM produtos WHERE id = $1 RETURNING *', [id]);
