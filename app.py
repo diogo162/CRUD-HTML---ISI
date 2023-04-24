@@ -56,19 +56,26 @@ def get_products():
 
 
 
-
 # Ler um produto pelo id
 @app.route('/produtos/<int:id>', methods=['GET'])
 @cross_origin()
 def get_product(id):
-    cur = conn.cursor()
+    cur, conn = newConnection()
     cur.execute("SELECT * FROM produtos WHERE id = %s", (id,))
     product = cur.fetchone()
+    closeConnection(cur, conn)
 
     if product is None:
         return jsonify({'error': 'Produto não encontrado'}), 404
 
-    return jsonify(product), 200
+    return jsonify({
+        'id': product[0],
+        'tipo': product[1],
+        'modelo': product[2],
+        'preco': product[3],
+        'quantidade': product[4],
+        'imagem': product[5],
+    }), 200
 
 # Atualizar um produto pelo id
 @app.route('/produtos/<int:id>', methods=['PUT'])
