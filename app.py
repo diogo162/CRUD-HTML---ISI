@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from bd import newConnection, closeConnection
-import psycopg2
-
-
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -64,7 +61,7 @@ def get_product(id):
     if product is None:
         return jsonify({'error': 'Produto não encontrado'}), 404
 
-        return jsonify({
+    return jsonify({
         'id': product[0],
         'tipo': product[1],
         'modelo': product[2],
