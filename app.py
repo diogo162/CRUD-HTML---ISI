@@ -3,12 +3,7 @@ from flask_cors import CORS, cross_origin
 from bd import newConnection, closeConnection
 import psycopg2
 
-# Configurações do banco de dados
-DB_HOST = 'localhost'
-DB_NAME = 'STIIM'
-DB_USER = 'postgres'
-DB_PASS = '1597536d'
-DB_PORT = 5432
+
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -37,8 +32,7 @@ def get_products():
     cur, conn = newConnection()
     cur.execute("SELECT * FROM produtos")
     produtos = cur.fetchall()
-    cur.close()
-    conn.close()
+    closeConnection(cur, conn)
     
     result = []
     for produto in produtos:
@@ -56,11 +50,13 @@ def get_products():
 
 
 
+
 # Ler um produto pelo id
 @app.route('/produtos/<int:id>', methods=['GET'])
 @cross_origin()
 def get_product(id):
     cur, conn = newConnection()
+    cur = conn.cursor()
     cur.execute("SELECT * FROM produtos WHERE id = %s", (id,))
     product = cur.fetchone()
     closeConnection(cur, conn)
@@ -68,7 +64,7 @@ def get_product(id):
     if product is None:
         return jsonify({'error': 'Produto não encontrado'}), 404
 
-    return jsonify({
+        return jsonify({
         'id': product[0],
         'tipo': product[1],
         'modelo': product[2],
@@ -106,17 +102,12 @@ def delete_product(id):
     cur.execute("DELETE FROM produtos WHERE id = %s", (id,))
     num_rows_deleted = cur.rowcount
     closeConnection(cur, conn)
+
     if num_rows_deleted == 0:
         return jsonify({'error': 'Produto não encontrado'}), 404
     else:
         conn.commit()
         return '', 204
-
-
-@app.route('/')
-@cross_origin()
-def index():
-    return app.send_static_file('index.html')
 
 if __name__ == '__main__':
     app.run(port=3000)
